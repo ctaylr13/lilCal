@@ -8,12 +8,7 @@ import InputActions from "./InputActions";
 import type { Dayjs } from "dayjs";
 import DateInput from "./DateInput";
 
-import styled from "styled-components";
-const Box = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-`;
+import { InputBox } from "../helpers/componentStyles";
 interface InputHeaderProps {
     setEvents: React.Dispatch<React.SetStateAction<EventType[]>>;
     eventToEdit: EventType | null;
@@ -83,7 +78,7 @@ const InputHeader: React.FC<InputHeaderProps> = (props) => {
     };
 
     return (
-        <Box>
+        <InputBox>
             <div>{eventToEdit ? "Edit" : "Create"} Calendar Event:</div>
             <InputRowStyled>
                 <input
@@ -146,7 +141,7 @@ const InputHeader: React.FC<InputHeaderProps> = (props) => {
                     endDateObj={endDateObj}
                 />
             </InputRowStyled>
-        </Box>
+        </InputBox>
     );
 };
 

@@ -49,6 +49,7 @@ export const SideNav = styled.div`
     background-color: #616b7a;
     padding-top: 10px;
     box-sizing: border-box;
+    padding-right: 20px;
 `;
 
 export const ContentWrapper = styled.div`
@@ -150,4 +151,49 @@ export const HourRow = styled.div<{ $hour: number }>`
 export const HourLabel = styled.div`
     padding: 2px 4px;
     font-size: 0.8em;
+`;
+
+export const DateDisplayContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+`;
+
+export const DateNumber = styled.span<{ $isToday: boolean }>`
+    font-weight: bold;
+    font-size: 1.2em;
+    color: ${({ $isToday }) => ($isToday ? "blue" : "inherit")};
+`;
+
+export const DayText = styled.span<{ $isToday: boolean }>`
+    color: ${({ $isToday }) => ($isToday ? "blue" : "inherit")};
+`;
+
+export const ActionsButtonRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 15px;
+`;
+
+export const DateContainer = styled.div`
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px;
+`;
+
+export const InputBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+`;
+
+export const WrapperStyle = styled.div`
+    width: 300;
+    border-radius: white;
+    padding: "8px";
 `;

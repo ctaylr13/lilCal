@@ -2,14 +2,8 @@ import React from "react";
 import { createEvent, submitData } from "../helpers/eventHelpers";
 import { EventType } from "../helpers/dataTypes";
 import type { Dayjs } from "dayjs";
-import styled from "styled-components";
 import { convertTo24Hour } from "../helpers/timeHelpers";
-const ButtonRow = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 15px;
-`;
+import { ActionsButtonRow } from "../helpers/componentStyles";
 interface InputActionsProps {
     eventName: string;
     startTime: string;
@@ -89,7 +83,7 @@ const InputActions: React.FC<InputActionsProps> = (props) => {
     };
 
     return (
-        <ButtonRow>
+        <ActionsButtonRow>
             <button disabled={submitDisabled} onClick={() => submitEvent()}>
                 Submit
             </button>
@@ -99,7 +93,7 @@ const InputActions: React.FC<InputActionsProps> = (props) => {
                     <button onClick={() => deleteEvent()}>Delete</button>
                 </>
             )}
-        </ButtonRow>
+        </ActionsButtonRow>
     );
 };
 
