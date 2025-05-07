@@ -1,8 +1,9 @@
 import React from "react";
-import { createEvent } from "../helpers/eventHelpers";
+import { createEvent, submitData } from "../helpers/eventHelpers";
 import { EventType } from "../helpers/dataTypes";
 import type { Dayjs } from "dayjs";
 import styled from "styled-components";
+import { convertTo24Hour } from "../helpers/timeHelpers";
 const ButtonRow = styled.div`
     display: flex;
     flex-direction: row;
@@ -58,26 +59,9 @@ const InputActions: React.FC<InputActionsProps> = (props) => {
         setEventToEdit(null);
     };
 
-    const convertTo24HourFormat = (time: string) => {
-        const [timePart, modifier] = time.split(" "); // Split into time and AM/PM
-        let [hours, minutes] = timePart.split(":").map(Number);
-
-        if (modifier === "PM" && hours < 12) {
-            hours += 12; // Convert PM hours
-        } else if (modifier === "AM" && hours === 12) {
-            hours = 0; // Handle 12 AM case
-        }
-
-        // Return formatted hours and minutes
-        return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
-            2,
-            "0"
-        )}`;
-    };
-
     const submitEvent = async () => {
-        const startTime24 = convertTo24HourFormat(startTime);
-        const endTime24 = convertTo24HourFormat(endTime);
+        const startTime24 = convertTo24Hour(startTime);
+        const endTime24 = convertTo24Hour(endTime);
 
         if (!startTime24 || !endTime24) {
             console.error("Invalid time input.");
@@ -95,29 +79,7 @@ const InputActions: React.FC<InputActionsProps> = (props) => {
             endDateObj
         );
 
-        try {
-            const response = await fetch("http://localhost:3000/events", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(event),
-            });
-
-            if (!response.ok) {
-                throw new Error(
-                    `Failed to create event: ${response.statusText}`
-                );
-            }
-
-            const savedEvent = await response.json();
-
-            // Update your local state with the new event
-            setEvents((prevEvents) => [...prevEvents, savedEvent]);
-        } catch (error) {
-            console.error("Error creating event:", error);
-        }
-
+        submitData(event, setEvents);
         // Reset form fields
         setEventName("");
         setStartTime("");
@@ -125,6 +87,7 @@ const InputActions: React.FC<InputActionsProps> = (props) => {
         setAllDay(false);
         setEventToEdit(null);
     };
+
     return (
         <ButtonRow>
             <button disabled={submitDisabled} onClick={() => submitEvent()}>
