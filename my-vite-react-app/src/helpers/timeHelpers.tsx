@@ -69,8 +69,7 @@ export const filterAllDayEvents = (events: EventType[], eventDate: Dayjs) => {
                 currentDate.isSameOrBefore(end, "day")
             );
         } else {
-            // For non-all-day events
-            return event.startDay === eventDate.format("YYYY-MM-DD");
+            return false; // Filter out if not allDay
         }
     });
 };
