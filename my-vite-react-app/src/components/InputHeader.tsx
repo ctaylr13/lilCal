@@ -8,7 +8,7 @@ import InputActions from "./InputActions";
 import type { Dayjs } from "dayjs";
 import AntdDateInput from "./AntdDateInput";
 import styled from "styled-components";
-const Box = styled.div`
+const InputBox = styled.div`
     display: flex;
     flex-direction: column;
     gap: 8px;
