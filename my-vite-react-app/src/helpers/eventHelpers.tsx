@@ -3,6 +3,26 @@ import { EventType } from "../helpers/dataTypes";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 
+export const fetchEvents = (
+    setEvents: (value: React.SetStateAction<EventType[]>) => void
+) => {
+    fetch("http://localhost:3000/events")
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(
+                    `Network response was not ok: ${response.statusText}`
+                );
+            }
+            return response.json();
+        })
+        .then((data) => {
+            setEvents(data);
+        })
+        .catch((error) => {
+            console.error("Error fetching events:", error);
+        });
+};
+
 export const createEvent = (
     eventToEdit: EventType | null,
     eventName: string,
@@ -50,4 +70,30 @@ export const createEvent = (
     newEvent.endTime = endTimeISO;
 
     return newEvent;
+};
+
+export const submitData = async (
+    event: EventType,
+    setEvents: (value: React.SetStateAction<EventType[]>) => void
+) => {
+    try {
+        const response = await fetch("http://localhost:3000/events", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(event),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to create event: ${response.statusText}`);
+        }
+
+        const savedEvent = await response.json();
+
+        // Update your local state with the new event
+        setEvents((prevEvents) => [...prevEvents, savedEvent]);
+    } catch (error) {
+        console.error("Error creating event:", error);
+    }
 };
