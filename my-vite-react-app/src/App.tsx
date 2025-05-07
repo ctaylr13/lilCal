@@ -15,10 +15,7 @@ import {
     SideNav,
     ContentWrapper,
 } from "./helpers/componentStyles.tsx";
-import {
-    filterAllDayEvents,
-    filterNonAllDayEvents,
-} from "./helpers/timeHelpers.tsx";
+import { filterEventsByTypeAndDate } from "./helpers/timeHelpers.tsx";
 
 const App = () => {
     const today = dayjs();
@@ -57,12 +54,9 @@ const App = () => {
     const onSelect = (date: Dayjs) => {
         setSelectedDate(date);
     };
-    const nonAllDayEvents = filterNonAllDayEvents(
-        events,
-        endDateObj,
-        eventDateObj
-    );
-    const allDayEvents = filterAllDayEvents(events, eventDateObj);
+
+    const nonAllDayEvents = filterEventsByTypeAndDate(events, eventDate, false);
+    const allDayEvents = filterEventsByTypeAndDate(events, eventDate, true);
 
     return (
         <Box>
