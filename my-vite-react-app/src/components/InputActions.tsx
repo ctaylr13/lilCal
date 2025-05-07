@@ -74,7 +74,8 @@ const InputActions: React.FC<InputActionsProps> = (props) => {
             "0"
         )}`;
     };
-    const submitEvent = () => {
+
+    const submitEvent = async () => {
         const startTime24 = convertTo24HourFormat(startTime);
         const endTime24 = convertTo24HourFormat(endTime);
 
@@ -94,15 +95,30 @@ const InputActions: React.FC<InputActionsProps> = (props) => {
             endDateObj
         );
 
-        setEvents((prevEvents) => {
-            if (eventToEdit) {
-                return prevEvents.map((prevEvent) =>
-                    prevEvent.id === event.id ? event : prevEvent
+        try {
+            const response = await fetch("http://localhost:3000/events", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(event),
+            });
+
+            if (!response.ok) {
+                throw new Error(
+                    `Failed to create event: ${response.statusText}`
                 );
             }
-            return [...prevEvents, event];
-        });
 
+            const savedEvent = await response.json();
+
+            // Update your local state with the new event
+            setEvents((prevEvents) => [...prevEvents, savedEvent]);
+        } catch (error) {
+            console.error("Error creating event:", error);
+        }
+
+        // Reset form fields
         setEventName("");
         setStartTime("");
         setEndTime("");

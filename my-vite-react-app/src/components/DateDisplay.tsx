@@ -7,14 +7,14 @@ const Container = styled.div`
     gap: 8px;
 `;
 
-const Number = styled.span<{ isToday: boolean }>`
+const Number = styled.span<{ $isToday: boolean }>`
     font-weight: bold;
     font-size: 1.2em;
-    color: ${({ isToday }) => (isToday ? "blue" : "inherit")};
+    color: ${({ $isToday }) => ($isToday ? "blue" : "inherit")};
 `;
 
-const DayText = styled.span<{ isToday: boolean }>`
-    color: ${({ isToday }) => (isToday ? "blue" : "inherit")};
+const DayText = styled.span<{ $isToday: boolean }>`
+    color: ${({ $isToday }) => ($isToday ? "blue" : "inherit")};
 `;
 
 const DateDisplay = ({ selectedDate }: { selectedDate: dayjs.Dayjs }) => {
@@ -22,8 +22,8 @@ const DateDisplay = ({ selectedDate }: { selectedDate: dayjs.Dayjs }) => {
 
     return (
         <Container>
-            <Number isToday={isToday}>{selectedDate.format("D")}</Number>
-            <DayText isToday={isToday}>{selectedDate.format("dddd")}</DayText>
+            <Number $isToday={isToday}>{selectedDate.format("D")}</Number>
+            <DayText $isToday={isToday}>{selectedDate.format("dddd")}</DayText>
         </Container>
     );
 };
