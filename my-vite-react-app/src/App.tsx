@@ -77,9 +77,7 @@ const App = () => {
         endDateObj,
         eventDateObj
     );
-
     const allDayEvents = filterAllDayEvents(events, eventDateObj);
-
     const onSelect = (date: Dayjs) => {
         setSelectedDate(date);
     };

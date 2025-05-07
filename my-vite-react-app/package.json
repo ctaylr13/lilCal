@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "db": "npx json-server src/db.json",
+    "start": "concurrently \"yarn dev\" \"yarn db\"",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -20,7 +22,8 @@
     "react": "^19.0.0",
     "react-calendar": "^5.1.0",
     "react-dom": "^19.0.0",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+     "concurrently": "^9.1.2"
   },
   "devDependencies": {
     "@cypress/react": "^9.0.1",
