@@ -6,6 +6,7 @@ import MonthCalendar from "./components/MonthCalendar.tsx";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import DateToggle from "./components/DateToggle.tsx";
+import { fetchEvents } from "./helpers/eventHelpers.tsx";
 
 import {
     WideOvalButton,
@@ -14,16 +15,13 @@ import {
     SideNav,
     ContentWrapper,
 } from "./helpers/componentStyles.tsx";
-import {
-    filterAllDayEvents,
-    filterNonAllDayEvents,
-} from "./helpers/timeHelpers.tsx";
+import { filterEventsByTypeAndDate } from "./helpers/timeHelpers.tsx";
 
 const App = () => {
-    const [events, setEvents] = useState<EventType[]>([]);
-
-    const [eventToEdit, setEventToEdit] = useState<EventType | null>(null);
     const today = dayjs();
+
+    const [events, setEvents] = useState<EventType[]>([]);
+    const [eventToEdit, setEventToEdit] = useState<EventType | null>(null);
     const [selectedDate, setSelectedDate] = useState<Dayjs>(today);
     const [allDay, setAllDay] = useState<boolean>(false);
     const [eventName, setEventName] = useState<string>("");
@@ -37,50 +35,28 @@ const App = () => {
     const [startDateObj, setStartDateObj] = useState<Dayjs | null>(
         eventDateObj
     );
+    const [endDateStr, setEndDateStr] = useState<string>("");
+    const [endDateObj, setEndDateObj] = useState<Dayjs | null>(null);
 
     useEffect(() => {
-        const fetchData = () => {
-            fetch("http://localhost:3000/events")
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error(
-                            `Network response was not ok: ${response.statusText}`
-                        );
-                    }
-                    return response.json();
-                })
-                .then((data) => {
-                    setEvents(data);
-                })
-                .catch((error) => {
-                    console.error("Error fetching events:", error);
-                });
-        };
-
-        fetchData();
+        fetchEvents(setEvents);
     }, []);
+
     useEffect(() => {
         const newDate = selectedDate || today;
         const newDateObj = dayjs(newDate);
         setStartDateStr(newDateObj.format("MM/DD/YYYY"));
         setStartDateObj(newDateObj);
-
         setEndDateStr(newDateObj.format("MM/DD/YYYY"));
         setEndDateObj(newDateObj);
     }, [selectedDate]);
 
-    const [endDateStr, setEndDateStr] = useState<string>("");
-    const [endDateObj, setEndDateObj] = useState<Dayjs | null>(null);
-
-    const nonAllDayEvents = filterNonAllDayEvents(
-        events,
-        endDateObj,
-        eventDateObj
-    );
-    const allDayEvents = filterAllDayEvents(events, eventDateObj);
     const onSelect = (date: Dayjs) => {
         setSelectedDate(date);
     };
+
+    const nonAllDayEvents = filterEventsByTypeAndDate(events, eventDate, false);
+    const allDayEvents = filterEventsByTypeAndDate(events, eventDate, true);
 
     return (
         <Box>
@@ -92,12 +68,10 @@ const App = () => {
                     Today
                 </WideOvalButton>
                 <DateToggle
-                    todaysDate={today}
                     setAllDay={setAllDay}
                     eventDate={eventDate}
                     setEventToEdit={setEventToEdit}
                     setSelectedDate={setSelectedDate}
-                    selectedDate={selectedDate}
                 />
             </TopBar>
             <SideNav>

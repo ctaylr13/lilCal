@@ -32,13 +32,7 @@ const TimelineHours: React.FC<TimelineHoursProps> = (props) => {
                 return (
                     <HourRow
                         key={hour}
-                        style={{
-                            top: hour * 60,
-                            left: 0,
-                            right: 0,
-                            height: 60,
-                            cursor: "pointer",
-                        }}
+                        $hour={hour}
                         onClick={() => hourBlockOnClick(hour, eventDate)}
                     >
                         <HourLabel>

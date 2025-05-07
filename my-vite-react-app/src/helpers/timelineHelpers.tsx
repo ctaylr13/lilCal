@@ -1,42 +1,51 @@
 import { EventType } from "../helpers/dataTypes";
 import dayjs from "dayjs";
 
-export const detectOverlaps = (
-    eventMap: {
+export const getEventLayoutInfo = (
+    event: EventType,
+    processedEvents: {
         event: EventType;
-        index: number;
-        overlaps: Set<number>;
         columnIndex: number;
         totalColumns: number;
     }[]
 ) => {
+    const matchingEvent = processedEvents.find((e) => e.event.id === event.id);
+    return {
+        columnIndex: matchingEvent?.columnIndex || 0,
+        totalColumns: matchingEvent?.totalColumns || 1,
+    };
+};
+
+interface EventMapType {
+    event: EventType;
+    index: number;
+    overlaps: Set<number>;
+    columnIndex: number;
+    totalColumns: number;
+}
+
+const getEventTimes = (eventWrapper: EventMapType) => {
+    const start = dayjs(eventWrapper.event.startTime).valueOf();
+    const end = dayjs(eventWrapper.event.endTime).valueOf();
+    return { start, end };
+};
+
+const detectOverlaps = (eventMap: EventMapType[]) => {
     for (let i = 0; i < eventMap.length; i++) {
-        const eA = eventMap[i];
-        const startA = dayjs(eA.event.startTime).valueOf();
-        const endA = dayjs(eA.event.endTime).valueOf();
-
+        const eAWrapper = eventMap[i];
         for (let j = i + 1; j < eventMap.length; j++) {
-            const eB = eventMap[j];
-            const startB = dayjs(eB.event.startTime).valueOf();
-            const endB = dayjs(eB.event.endTime).valueOf();
-
+            const eBWrapper = eventMap[j];
+            const { start: startA, end: endA } = getEventTimes(eAWrapper);
+            const { start: startB, end: endB } = getEventTimes(eBWrapper);
             // Check overlap
             if (startA < endB && endA > startB) {
-                eA.overlaps.add(eB.index);
-                eB.overlaps.add(eA.index);
+                eAWrapper.overlaps.add(eBWrapper.index);
+                eBWrapper.overlaps.add(eAWrapper.index);
             }
         }
     }
 };
-export const assignColumns = (
-    eventMap: {
-        event: EventType;
-        index: number;
-        overlaps: Set<number>;
-        columnIndex: number;
-        totalColumns: number;
-    }[]
-) => {
+const assignColumns = (eventMap: EventMapType[]) => {
     for (const current of eventMap) {
         const occupiedColumns = Array.from(current.overlaps).map(
             (otherIdx) => eventMap[otherIdx].columnIndex
@@ -51,15 +60,7 @@ export const assignColumns = (
     }
 };
 
-export const calculateTotalColumns = (
-    eventMap: {
-        event: EventType;
-        index: number;
-        overlaps: Set<number>;
-        columnIndex: number;
-        totalColumns: number;
-    }[]
-) => {
+const calculateTotalColumns = (eventMap: EventMapType[]) => {
     for (const current of eventMap) {
         const maxOverlapIndex = Math.max(
             current.columnIndex,
