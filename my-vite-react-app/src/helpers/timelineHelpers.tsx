@@ -1,6 +1,21 @@
 import { EventType } from "../helpers/dataTypes";
 import dayjs from "dayjs";
 
+export const getEventLayoutInfo = (
+    event: EventType,
+    processedEvents: {
+        event: EventType;
+        columnIndex: number;
+        totalColumns: number;
+    }[]
+) => {
+    const matchingEvent = processedEvents.find((e) => e.event.id === event.id);
+    return {
+        columnIndex: matchingEvent?.columnIndex || 0,
+        totalColumns: matchingEvent?.totalColumns || 1,
+    };
+};
+
 export const detectOverlaps = (
     eventMap: {
         event: EventType;

@@ -132,16 +132,19 @@ export const EventsContainer = styled.div`
     position: relative; /* for overlaying event spans */
     height: ${24 * 60}px; /* total height for all hours (1440px) */
     box-sizing: border-box;
-    /* optionally, add border or background for clarity */
 `;
 
-export const HourRow = styled.div`
-    height: 60px; /* height of each hour block */
-    border-top: 1px solid #ccc;
-    display: flex;
+export const HourRow = styled.div<{ $hour: number }>`
+    position: absolute;
+    top: ${(props) =>
+        props.$hour *
+        60}px; /* Assuming hour is a number and multiplying by 60 for pixels */
+    left: 0;
+    right: 0;
     align-items: flex-start;
-    box-sizing: border-box; /* ensure borders/padding don't increase size */
-    position: absolute; /* position in container for grid lines */
+    border-top: 1px solid #ccc;
+    height: 60px;
+    box-sizing: border-box;
 `;
 
 export const HourLabel = styled.div`
