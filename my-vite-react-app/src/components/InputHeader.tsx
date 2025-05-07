@@ -7,12 +7,7 @@ import { InputRowStyled } from "../helpers/componentStyles";
 import InputActions from "./InputActions";
 import type { Dayjs } from "dayjs";
 import AntdDateInput from "./AntdDateInput";
-import styled from "styled-components";
-const InputBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-`;
+import { InputBox } from "../helpers/componentStyles";
 interface InputHeaderProps {
     setEvents: React.Dispatch<React.SetStateAction<EventType[]>>;
     eventToEdit: EventType | null;
