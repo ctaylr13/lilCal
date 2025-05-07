@@ -193,7 +193,7 @@ export const InputBox = styled.div`
 `;
 
 export const WrapperStyle = styled.div`
-    width: 300;
-    border-radius: white;
-    padding: "8px";
+    width: 300px;
+    border-radius: 8px;
+    padding: 8px;
 `;
