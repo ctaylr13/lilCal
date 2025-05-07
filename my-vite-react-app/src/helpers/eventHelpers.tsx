@@ -26,49 +26,28 @@ export const fetchEvents = (
 export const createEvent = (
     eventToEdit: EventType | null,
     eventName: string,
-    startTime24: string, // e.g., "14:00"
-    endTime24: string, // e.g., "16:00"
-    eventDate: Dayjs, // date of the event
-    allDay: boolean | undefined,
+    startTime24: string,
+    endTime24: string,
+    allDay: boolean = false,
     startDateObj: Dayjs | null,
     endDateObj: Dayjs | null
 ) => {
-    const dateStr = eventDate.format("YYYY-MM-DD");
-    let startTimeISO: string;
-    let endTimeISO: string;
     const startDateStr = startDateObj?.format("YYYY-MM-DD");
     const endDateStr = endDateObj?.format("YYYY-MM-DD");
-    // console.log("SUBMITTED DATE??", startDateObj?.format("YYYY-MM-DD"));
+
     const newEvent: EventType = {
-        id: eventToEdit ? eventToEdit.id : uuidv4(),
+        id: eventToEdit?.id || uuidv4(),
         title: eventName,
-        allDay: false, // default
-        startTime: "", // to be set
-        endTime: "", // to be set
-        startDay: startDateStr || dateStr,
-        endDay: endDateStr || dateStr,
+        allDay,
+        startTime: allDay
+            ? `${startDateStr}T00:00:00Z`
+            : dayjs(`${startDateStr}T${startTime24}`).toISOString(),
+        endTime: allDay
+            ? `${endDateStr}T23:59:59Z`
+            : dayjs(`${endDateStr}T${endTime24}`).toISOString(),
+        startDay: startDateStr,
+        endDay: endDateStr,
     };
-
-    if (allDay) {
-        // Set start at 00:00:00Z
-        startTimeISO = `${startDateStr ? startDateStr : dateStr}T00:00:00Z`;
-        // Set end at 23:59:59Z
-        endTimeISO = `${endDateStr ? endDateStr : dateStr}T23:59:59Z`;
-        newEvent.allDay = true;
-        newEvent.startDay = dateStr; // Set startDay to the event date
-    } else {
-        // Construct times from provided startTime24 and endTime24
-        startTimeISO = dayjs(
-            `${startDateStr ? startDateStr : dateStr}T${startTime24}`
-        ).toISOString();
-        endTimeISO = dayjs(
-            `${endDateStr ? endDateStr : dateStr}T${endTime24}`
-        ).toISOString();
-    }
-
-    newEvent.startTime = startTimeISO;
-    newEvent.endTime = endTimeISO;
-
     return newEvent;
 };
 
