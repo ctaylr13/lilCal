@@ -3,10 +3,17 @@ import TimeDropdown from "./TimeDropdown";
 
 import { EventType } from "../helpers/dataTypes";
 import { convertTo24Hour, formatTime } from "../helpers/timeHelpers";
-import { FeedbackStyled, InputRowStyled } from "../helpers/componentStyles";
+import { InputRowStyled } from "../helpers/componentStyles";
 import InputActions from "./InputActions";
 import type { Dayjs } from "dayjs";
 import DateInput from "./DateInput";
+
+import styled from "styled-components";
+const Box = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+`;
 interface InputHeaderProps {
     setEvents: React.Dispatch<React.SetStateAction<EventType[]>>;
     eventToEdit: EventType | null;
@@ -75,8 +82,8 @@ const InputHeader: React.FC<InputHeaderProps> = (props) => {
     };
 
     return (
-        <div>
-            <div>Create New Event</div>
+        <Box>
+            <div>{eventToEdit ? "Edit" : "Create"} Calendar Event:</div>
             <InputRowStyled>
                 <input
                     type="text"
@@ -96,19 +103,30 @@ const InputHeader: React.FC<InputHeaderProps> = (props) => {
                     dropdownLabel="Event End"
                     allDay={allDay}
                 />
+            </InputRowStyled>
+            <InputRowStyled>
                 <DateInput
+                    inputTitle="Event Start"
                     dateStr={startDateStr}
                     setDateStr={setStartDateStr}
-                    dateObj={startDateObj}
                     setDateObj={setStartDateObj}
                 />
                 <DateInput
+                    inputTitle="Event End"
                     dateStr={endDateStr}
                     setDateStr={setEndDateStr}
-                    dateObj={endDateObj}
                     setDateObj={setEndDateObj}
                 />
-
+            </InputRowStyled>
+            <InputRowStyled>
+                <>
+                    <input
+                        type="checkbox"
+                        checked={allDay}
+                        onChange={handleAllDay}
+                    />
+                    <label>All Day</label>
+                </>
                 <InputActions
                     eventName={eventName}
                     startTime={startTime}
@@ -133,20 +151,7 @@ const InputHeader: React.FC<InputHeaderProps> = (props) => {
                     setEndDateObj={setEndDateObj}
                 />
             </InputRowStyled>
-            <>
-                <input
-                    type="checkbox"
-                    checked={allDay}
-                    onChange={handleAllDay}
-                />
-                <label>All Day</label>
-            </>
-            {eventTimeInValid && (
-                <FeedbackStyled>
-                    Start time must be before end time.
-                </FeedbackStyled>
-            )}
-        </div>
+        </Box>
     );
 };
 

@@ -6,6 +6,7 @@ import Timeline from "./components/Timeline.tsx";
 import MonthCalendar from "./components/MonthCalendar.tsx";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
+import DateToggle from "./components/DateToggle.tsx";
 
 import {
     WideOvalButton,
@@ -36,7 +37,6 @@ const App = () => {
     const [startDateObj, setStartDateObj] = useState<Dayjs | null>(
         eventDateObj
     );
-    // If selectedDate changes, update states
     useEffect(() => {
         const newDate = selectedDate || today;
         const newDateObj = dayjs(newDate);
@@ -71,6 +71,16 @@ const App = () => {
                 >
                     Today
                 </WideOvalButton>
+                <DateToggle
+                    todaysDate={today}
+                    setAllDay={setAllDay}
+                    eventDate={eventDate}
+                    setEventToEdit={setEventToEdit}
+                    setSelectedDate={setSelectedDate}
+                    selectedDate={selectedDate}
+                />
+            </TopBar>
+            <SideNav>
                 <InputHeader
                     allDay={allDay}
                     setAllDay={setAllDay}
@@ -93,8 +103,6 @@ const App = () => {
                     endDateObj={endDateObj}
                     setEndDateObj={setEndDateObj}
                 />
-            </TopBar>
-            <SideNav>
                 <MonthCalendar
                     selectedDate={selectedDate}
                     onSelect={onSelect}
@@ -105,7 +113,6 @@ const App = () => {
                     allDayEvents={allDayEvents}
                     setAllDay={setAllDay}
                     eventDate={eventDate}
-                    todaysDate={today}
                     setEventToEdit={setEventToEdit}
                     events={nonAllDayEvents}
                     selectedDate={selectedDate}
