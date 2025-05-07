@@ -39,10 +39,8 @@ const DateToggle: React.FC<DateToggleProps> = (props) => {
     };
     return (
         <DateRow>
-            {/* <Header>{todaysDate.format("MMMM D, YYYY")}</Header> */}
             <LeftArrow onClick={handlePrevDay} />
             <RightArrow onClick={handleNextDay} />
-            {/* <Header>Viewing {eventDate.format("MMMM D, YYYY")} Event's</Header> */}
             <Header>{eventDate.format("MMMM D, YYYY")}</Header>
         </DateRow>
     );

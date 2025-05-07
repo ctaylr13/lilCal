@@ -23,14 +23,8 @@ interface InputActionsProps {
     eventDate: Dayjs;
     allDay?: boolean;
     setAllDay: React.Dispatch<React.SetStateAction<boolean>>;
-    startDateStr: string;
-    setStartDateStr: React.Dispatch<React.SetStateAction<string>>;
     startDateObj: Dayjs | null;
-    setStartDateObj: React.Dispatch<React.SetStateAction<Dayjs | null>>;
-    endDateStr: string;
-    setEndDateStr: React.Dispatch<React.SetStateAction<string>>;
     endDateObj: Dayjs | null;
-    setEndDateObj: React.Dispatch<React.SetStateAction<Dayjs | null>>;
 }
 
 const InputActions: React.FC<InputActionsProps> = (props) => {
@@ -48,14 +42,8 @@ const InputActions: React.FC<InputActionsProps> = (props) => {
         eventDate,
         allDay,
         setAllDay,
-        startDateStr,
-        setStartDateStr,
         startDateObj,
-        setStartDateObj,
-        endDateStr,
-        setEndDateStr,
         endDateObj,
-        setEndDateObj,
     } = props;
     const isValid =
         (allDay && eventName) ||

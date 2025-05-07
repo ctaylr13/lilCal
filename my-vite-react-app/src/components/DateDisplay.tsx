@@ -1,23 +1,18 @@
 import styled from "styled-components";
 import dayjs from "dayjs";
 
-// Example React component
-
-// Styled component
 const Container = styled.div`
     display: flex;
     align-items: center;
-    gap: 8px; /* spacing between number and day */
+    gap: 8px;
 `;
 
-// Style for the number
 const Number = styled.span<{ isToday: boolean }>`
     font-weight: bold;
     font-size: 1.2em;
     color: ${({ isToday }) => (isToday ? "blue" : "inherit")};
 `;
 
-// Style for the day name
 const DayText = styled.span<{ isToday: boolean }>`
     color: ${({ isToday }) => (isToday ? "blue" : "inherit")};
 `;
