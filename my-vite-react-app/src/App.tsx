@@ -21,7 +21,8 @@ import {
 } from "./helpers/timeHelpers.tsx";
 
 const App = () => {
-    const [events, setEvents] = useState(ExampleEvents);
+    // const [events, setEvents] = useState(ExampleEvents);
+    const [events, setEvents] = useState<EventType[]>([]);
     const [eventToEdit, setEventToEdit] = useState<EventType | null>(null);
     const today = dayjs();
     const [selectedDate, setSelectedDate] = useState<Dayjs>(today);
@@ -46,6 +47,30 @@ const App = () => {
         setEndDateStr(newDateObj.format("MM/DD/YYYY"));
         setEndDateObj(newDateObj);
     }, [selectedDate]);
+
+    useEffect(() => {
+        const fetchData = () => {
+            fetch("http://localhost:3000/events")
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(
+                            `Network response was not ok: ${response.statusText}`
+                        );
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log("Fetched events:", data);
+                    setEvents(data);
+                    // You can process the data here
+                })
+                .catch((error) => {
+                    console.error("Error fetching events:", error);
+                });
+        };
+
+        fetchData();
+    }, []);
 
     const [endDateStr, setEndDateStr] = useState<string>("");
     const [endDateObj, setEndDateObj] = useState<Dayjs | null>(null);

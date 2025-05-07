@@ -1,0 +1,82 @@
+{
+  "events": [
+    {
+      "id": "a1b2c3d4e5f6",
+      "title": "Red Sox Game",
+      "startTime": "2025-05-01T10:00:00Z",
+      "endTime": "2025-05-01T12:00:00Z"
+    },
+    {
+      "id": "g7h8i9j0k1l2",
+      "title": "Concert",
+      "startTime": "2025-05-01T18:00:00Z",
+      "endTime": "2025-05-01T20:00:00Z"
+    },
+    {
+      "id": "m3n4o5p6q7r8",
+      "title": "Study Hall",
+      "startTime": "2025-05-01T14:00:00Z",
+      "endTime": "2025-05-01T16:00:00Z"
+    },
+    {
+      "id": "s9t0u1v2w3x4",
+      "title": "Rehearsal",
+      "startTime": "2025-05-04T11:00:00Z",
+      "endTime": "2025-05-04T12:00:00Z"
+    },
+    {
+      "id": "y5z6a7b8c9d0",
+      "title": "Gemstones",
+      "startTime": "2025-05-05T11:00:00Z",
+      "endTime": "2025-05-05T12:00:00Z"
+    },
+    {
+      "id": "e1f2g3h4i5j6",
+      "title": "Coaching",
+      "startTime": "2025-05-05T14:00:00Z",
+      "endTime": "2025-05-05T16:00:00Z"
+    },
+    {
+      "id": "k7l8m9n0o1p2",
+      "title": "All Day Event 1",
+      "startTime": "2025-05-01T00:00:00Z",
+      "endTime": "2025-05-01T23:59:59Z",
+      "allDay": true,
+      "startDay": "2025-05-01"
+    },
+    {
+      "id": "q3r4s5t6u7v8",
+      "title": "All Day Event 2",
+      "startTime": "2025-05-01T00:00:00Z",
+      "endTime": "2025-05-01T23:59:59Z",
+      "allDay": true,
+      "startDay": "2025-05-01"
+    },
+    {
+      "id": "w9x0y1z2a3b4",
+      "title": "All Day Event 3",
+      "startTime": "2025-05-01T00:00:00Z",
+      "endTime": "2025-05-01T23:59:59Z",
+      "allDay": true,
+      "startDay": "2025-05-01"
+    },
+    {
+      "id": "c5d6e7f8g9h0",
+      "title": "Multi-Day Event",
+      "startTime": "2025-05-06T20:00:00Z",
+      "endTime": "2025-05-07T08:00:00Z",
+      "allDay": false,
+      "startDay": "2025-05-06",
+      "endDay": "2025-05-07"
+    },
+    {
+      "id": "25ad4baf-ed8b-44e6-9542-59f4316e8bd6",
+      "title": "porch fest",
+      "allDay": true,
+      "startTime": "2025-05-07T00:00:00Z",
+      "endTime": "2025-05-07T23:59:59Z",
+      "startDay": "2025-05-07",
+      "endDay": "2025-05-07"
+    }
+  ]
+}
