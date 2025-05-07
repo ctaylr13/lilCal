@@ -49,6 +49,7 @@ export const SideNav = styled.div`
     background-color: #616b7a;
     padding-top: 10px;
     box-sizing: border-box;
+    padding-right: 20px;
 `;
 
 export const ContentWrapper = styled.div`
@@ -132,19 +133,67 @@ export const EventsContainer = styled.div`
     position: relative; /* for overlaying event spans */
     height: ${24 * 60}px; /* total height for all hours (1440px) */
     box-sizing: border-box;
-    /* optionally, add border or background for clarity */
 `;
 
-export const HourRow = styled.div`
-    height: 60px; /* height of each hour block */
-    border-top: 1px solid #ccc;
-    display: flex;
+export const HourRow = styled.div<{ $hour: number }>`
+    position: absolute;
+    top: ${(props) =>
+        props.$hour *
+        60}px; /* Assuming hour is a number and multiplying by 60 for pixels */
+    left: 0;
+    right: 0;
     align-items: flex-start;
-    box-sizing: border-box; /* ensure borders/padding don't increase size */
-    position: absolute; /* position in container for grid lines */
+    border-top: 1px solid #ccc;
+    height: 60px;
+    box-sizing: border-box;
 `;
 
 export const HourLabel = styled.div`
     padding: 2px 4px;
     font-size: 0.8em;
+`;
+
+export const DateDisplayContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+`;
+
+export const DateNumber = styled.span<{ $isToday: boolean }>`
+    font-weight: bold;
+    font-size: 1.2em;
+    color: ${({ $isToday }) => ($isToday ? "blue" : "inherit")};
+`;
+
+export const DayText = styled.span<{ $isToday: boolean }>`
+    color: ${({ $isToday }) => ($isToday ? "blue" : "inherit")};
+`;
+
+export const ActionsButtonRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 15px;
+`;
+
+export const DateContainer = styled.div`
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px;
+`;
+
+export const InputBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+`;
+
+export const WrapperStyle = styled.div`
+    width: 300px;
+    border-radius: 8px;
+    padding: 8px;
 `;

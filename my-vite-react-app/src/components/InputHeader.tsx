@@ -76,12 +76,13 @@ const InputHeader: React.FC<InputHeaderProps> = (props) => {
 
     const eventTimeInValid =
         startTime24 !== null && endTime24 !== null && startTime24 >= endTime24;
+
     const handleAllDay = () => {
         setAllDay(!allDay);
     };
 
     return (
-        <Box>
+        <InputBox>
             <div>{eventToEdit ? "Edit" : "Create"} Calendar Event:</div>
             <InputRowStyled>
                 <input
@@ -142,7 +143,7 @@ const InputHeader: React.FC<InputHeaderProps> = (props) => {
                     endDateObj={endDateObj}
                 />
             </InputRowStyled>
-        </Box>
+        </InputBox>
     );
 };
 
