@@ -141,14 +141,8 @@ const InputHeader: React.FC<InputHeaderProps> = (props) => {
                     eventDate={eventDate}
                     allDay={allDay}
                     setAllDay={setAllDay}
-                    startDateStr={startDateStr}
-                    setStartDateStr={setStartDateStr}
                     startDateObj={startDateObj}
-                    setStartDateObj={setStartDateObj}
-                    endDateStr={endDateStr}
-                    setEndDateStr={setEndDateStr}
                     endDateObj={endDateObj}
-                    setEndDateObj={setEndDateObj}
                 />
             </InputRowStyled>
         </Box>

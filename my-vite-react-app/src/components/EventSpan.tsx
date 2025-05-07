@@ -24,7 +24,6 @@ const EventSpan: React.FC<EventLayoutProps> = ({
     columnIndex,
     totalColumns,
     setEventToEdit,
-    startTime,
     dayEnd,
     dayStart,
 }) => {
