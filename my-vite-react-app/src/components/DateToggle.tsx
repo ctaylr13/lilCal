@@ -1,46 +1,33 @@
 import React from "react";
 import type { Dayjs } from "dayjs";
 import { EventType } from "../helpers/dataTypes";
-import styled from "styled-components";
 import {
     Header,
     DateRow,
     LeftArrow,
     RightArrow,
 } from "../helpers/componentStyles";
+
 interface DateToggleProps {
-    todaysDate: Dayjs;
     eventDate: Dayjs;
     setEventToEdit: React.Dispatch<React.SetStateAction<EventType | null>>;
     setAllDay: React.Dispatch<React.SetStateAction<boolean>>;
     setSelectedDate: React.Dispatch<React.SetStateAction<Dayjs>>;
-    selectedDate: Dayjs;
 }
 
 const DateToggle: React.FC<DateToggleProps> = (props) => {
-    const {
-        todaysDate,
-        setAllDay,
-        eventDate,
-        setEventToEdit,
-        setSelectedDate,
-        selectedDate,
-    } = props;
-    const handlePrevDay = () => {
+    const { setAllDay, eventDate, setEventToEdit, setSelectedDate } = props;
+
+    const handleChangeDay = (direction: number) => {
         setEventToEdit(null);
-        setSelectedDate(selectedDate.subtract(1, "day"));
+        setSelectedDate((prevDate) => prevDate.add(direction, "day"));
         setAllDay(false);
     };
 
-    const handleNextDay = () => {
-        setEventToEdit(null);
-        setSelectedDate(selectedDate.add(1, "day"));
-        setAllDay(false);
-    };
     return (
         <DateRow>
-            <LeftArrow onClick={handlePrevDay} />
-            <RightArrow onClick={handleNextDay} />
+            <LeftArrow onClick={() => handleChangeDay(-1)} />
+            <RightArrow onClick={() => handleChangeDay(1)} />
             <Header>{eventDate.format("MMMM D, YYYY")}</Header>
         </DateRow>
     );
