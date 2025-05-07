@@ -6,8 +6,7 @@ import { convertTo24Hour, formatTime } from "../helpers/timeHelpers";
 import { InputRowStyled } from "../helpers/componentStyles";
 import InputActions from "./InputActions";
 import type { Dayjs } from "dayjs";
-import DateInput from "./DateInput";
-
+import AntdDateInput from "./AntdDateInput";
 import { InputBox } from "../helpers/componentStyles";
 interface InputHeaderProps {
     setEvents: React.Dispatch<React.SetStateAction<EventType[]>>;
@@ -101,16 +100,14 @@ const InputHeader: React.FC<InputHeaderProps> = (props) => {
                 />
             </InputRowStyled>
             <InputRowStyled>
-                <DateInput
+                <AntdDateInput
                     inputTitle="Event Start"
-                    dateStr={startDateStr}
-                    setDateStr={setStartDateStr}
+                    dateObj={startDateObj}
                     setDateObj={setStartDateObj}
                 />
-                <DateInput
+                <AntdDateInput
                     inputTitle="Event End"
-                    dateStr={endDateStr}
-                    setDateStr={setEndDateStr}
+                    dateObj={endDateObj}
                     setDateObj={setEndDateObj}
                 />
             </InputRowStyled>
