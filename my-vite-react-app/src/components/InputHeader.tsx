@@ -77,6 +77,7 @@ const InputHeader: React.FC<InputHeaderProps> = (props) => {
 
     const eventTimeInValid =
         startTime24 !== null && endTime24 !== null && startTime24 >= endTime24;
+
     const handleAllDay = () => {
         setAllDay(!allDay);
     };
