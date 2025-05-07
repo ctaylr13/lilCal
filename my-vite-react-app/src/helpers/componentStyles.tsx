@@ -5,6 +5,7 @@ export const InputRowStyled = styled.div`
     display: flex;
     flex-direction: row;
     gap: 10px;
+    justify-content: flex-start;
 `;
 
 export const FeedbackStyled = styled.div`
@@ -14,7 +15,7 @@ export const FeedbackStyled = styled.div`
 export const DateRow = styled.div`
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    align-items: center;
 `;
 
 export const Box = styled.div`
@@ -31,7 +32,7 @@ export const TopBar = styled.div`
     left: 0;
     width: 100%;
     height: 60px; /* or desired height */
-    background-color: #333;
+    background-color: #2f3238;
     z-index: 1000;
     display: flex;
     align-items: center;
@@ -45,7 +46,7 @@ export const SideNav = styled.div`
     left: 0;
     height: calc(100vh - 60px);
     width: 350px; /* or desired width */
-    background-color: #444;
+    background-color: #616b7a;
     padding-top: 10px;
     box-sizing: border-box;
 `;

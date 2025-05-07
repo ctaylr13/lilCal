@@ -4,14 +4,14 @@ import dayjs, { Dayjs } from "dayjs";
 interface DateInputProps {
     dateStr: string;
     setDateStr: (value: string) => void;
-    dateObj: Dayjs | null;
     setDateObj: (date: Dayjs | null) => void;
+    inputTitle: string;
 }
 
 const DateInput: React.FC<DateInputProps> = ({
     dateStr,
     setDateStr,
-    dateObj,
+    inputTitle,
     setDateObj,
 }) => {
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -49,6 +49,7 @@ const DateInput: React.FC<DateInputProps> = ({
 
     return (
         <div>
+            <label>{inputTitle}</label>
             <input
                 type="text"
                 placeholder="MM/DD/YYYY"
@@ -56,9 +57,6 @@ const DateInput: React.FC<DateInputProps> = ({
                 onChange={handleChange}
                 maxLength={10}
             />
-            {dateObj && (
-                <div>Selected Date: {dateObj.format("MM/DD/YYYY")}</div>
-            )}
         </div>
     );
 };
