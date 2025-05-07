@@ -67,7 +67,6 @@ const InputActions: React.FC<InputActionsProps> = (props) => {
             eventName,
             startTime24,
             endTime24,
-            eventDate,
             allDay,
             startDateObj,
             endDateObj
