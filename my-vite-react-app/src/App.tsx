@@ -40,10 +40,11 @@ const App = () => {
     const [endDateObj, setEndDateObj] = useState<Dayjs | null>(null);
 
     useEffect(() => {
-        setTimeout(() => {
+        const timeoutId = setTimeout(() => {
             fetchEvents(setEvents);
             setDataLoading(false);
         }, 1500);
+        return () => clearTimeout(timeoutId);
     }, []);
 
     useEffect(() => {
