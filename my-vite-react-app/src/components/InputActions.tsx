@@ -1,9 +1,10 @@
-import React from "react";
-import { createEvent, submitData } from "../helpers/eventHelpers";
+import React, { useState } from "react";
+import { createEvent, submitOrUpdateEvent } from "../helpers/eventHelpers";
 import { EventType } from "../helpers/dataTypes";
 import type { Dayjs } from "dayjs";
 import { convertTo24Hour } from "../helpers/timeHelpers";
 import { ActionsButtonRow } from "../helpers/componentStyles";
+import { ToastContainer, toast } from "react-toastify";
 interface InputActionsProps {
     eventName: string;
     startTime: string;
@@ -40,6 +41,8 @@ const InputActions: React.FC<InputActionsProps> = (props) => {
         startDateObj,
         endDateObj,
     } = props;
+
+    const [notifyMessage, setNotifyMessage] = useState("");
     const isValid =
         (allDay && eventName) ||
         (!allDay && eventName && startTime && endTime && !eventTimeInValid);
@@ -58,8 +61,8 @@ const InputActions: React.FC<InputActionsProps> = (props) => {
         const endTime24 = convertTo24Hour(endTime);
 
         if (!startTime24 || !endTime24) {
-            console.error("Invalid time input.");
-            return; // Prevent submission if times are invalid
+            notify("Invalid time input. Please check the start and end times.");
+            return;
         }
 
         const event = createEvent(
@@ -72,13 +75,19 @@ const InputActions: React.FC<InputActionsProps> = (props) => {
             endDateObj
         );
 
-        submitData(event, setEvents);
-        // Reset form fields
+        await submitOrUpdateEvent(event, setEvents, eventToEdit ? true : false);
+
         setEventName("");
         setStartTime("");
         setEndTime("");
         setAllDay(false);
         setEventToEdit(null);
+    };
+
+    const notify = (message: string) => toast(message);
+
+    const deleteEventOnClick = () => {
+        deleteEvent();
     };
 
     return (
@@ -89,9 +98,10 @@ const InputActions: React.FC<InputActionsProps> = (props) => {
             {eventToEdit && (
                 <>
                     <button onClick={() => setEventToEdit(null)}>Cancel</button>
-                    <button onClick={() => deleteEvent()}>Delete</button>
+                    <button onClick={() => deleteEventOnClick()}>Delete</button>
                 </>
             )}
+            <ToastContainer aria-label={undefined} position="bottom-left" />
         </ActionsButtonRow>
     );
 };
