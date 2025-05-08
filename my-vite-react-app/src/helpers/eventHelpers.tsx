@@ -50,29 +50,67 @@ export const createEvent = (
     };
     return newEvent;
 };
+const apiRequest = async (
+    url: string,
+    method: string,
+    body?: any
+): Promise<any> => {
+    const response = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: body ? JSON.stringify(body) : undefined,
+    });
+    if (!response.ok) {
+        throw new Error(`API request failed: ${response.statusText}`);
+    }
+    return response.json();
+};
 
-export const submitData = async (
+// Main function using the method parameter
+export const submitOrUpdateEvent = async (
     event: EventType,
-    setEvents: (value: React.SetStateAction<EventType[]>) => void
+    setEvents: React.Dispatch<React.SetStateAction<EventType[]>>,
+    isEditing: boolean
 ) => {
+    const url = "http://localhost:3000/events";
+
     try {
-        const response = await fetch("http://localhost:3000/events", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(event),
+        if (isEditing) {
+            const updatedEvent = await apiRequest(
+                `${url}/${event.id}`,
+                "PATCH",
+                event
+            );
+            setEvents((prev) =>
+                prev.map((ev) =>
+                    ev.id === updatedEvent.id ? updatedEvent : ev
+                )
+            );
+        } else {
+            const savedEvent = await apiRequest(url, "POST", event);
+            setEvents((prev) => [...prev, savedEvent]);
+        }
+    } catch (error) {
+        console.error("Error submitting/updating event:", error);
+    }
+};
+
+export const deleteEvent = async (
+    eventId: string,
+    setEvents: React.Dispatch<React.SetStateAction<EventType[]>>
+) => {
+    const url = `http://localhost:3000/events/${eventId}`;
+
+    try {
+        const response = await fetch(url, {
+            method: "DELETE",
         });
 
         if (!response.ok) {
-            throw new Error(`Failed to create event: ${response.statusText}`);
+            throw new Error(`Failed to delete event: ${response.statusText}`);
         }
-
-        const savedEvent = await response.json();
-
-        // Update your local state with the new event
-        setEvents((prevEvents) => [...prevEvents, savedEvent]);
+        setEvents((prevEvents) => prevEvents.filter((ev) => ev.id !== eventId));
     } catch (error) {
-        console.error("Error creating event:", error);
+        console.error("Error deleting event:", error);
     }
 };
