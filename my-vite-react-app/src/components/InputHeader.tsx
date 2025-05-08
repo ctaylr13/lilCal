@@ -12,7 +12,6 @@ interface InputHeaderProps {
     setEvents: React.Dispatch<React.SetStateAction<EventType[]>>;
     eventToEdit: EventType | null;
     setEventToEdit: React.Dispatch<React.SetStateAction<EventType | null>>;
-    eventDate: Dayjs;
     allDay: boolean;
     setAllDay: React.Dispatch<React.SetStateAction<boolean>>;
     eventName: string;
@@ -21,21 +20,18 @@ interface InputHeaderProps {
     setStartTime: React.Dispatch<React.SetStateAction<string>>;
     endTime: string;
     setEndTime: React.Dispatch<React.SetStateAction<string>>;
-    startDateStr: string;
-    setStartDateStr: React.Dispatch<React.SetStateAction<string>>;
     startDateObj: Dayjs | null;
     setStartDateObj: React.Dispatch<React.SetStateAction<Dayjs | null>>;
-    endDateStr: string;
-    setEndDateStr: React.Dispatch<React.SetStateAction<string>>;
     endDateObj: Dayjs | null;
     setEndDateObj: React.Dispatch<React.SetStateAction<Dayjs | null>>;
+    eventDate: Dayjs;
 }
 const InputHeader: React.FC<InputHeaderProps> = (props) => {
     const {
+        eventDate,
         setEvents,
         eventToEdit,
         setEventToEdit,
-        eventDate,
         allDay,
         setAllDay,
         eventName,
@@ -44,12 +40,8 @@ const InputHeader: React.FC<InputHeaderProps> = (props) => {
         setStartTime,
         endTime,
         setEndTime,
-        startDateStr,
-        setStartDateStr,
         startDateObj,
         setStartDateObj,
-        endDateStr,
-        setEndDateStr,
         endDateObj,
         setEndDateObj,
     } = props;
@@ -121,6 +113,9 @@ const InputHeader: React.FC<InputHeaderProps> = (props) => {
                     <label>All Day</label>
                 </>
                 <InputActions
+                    eventDate={eventDate}
+                    setEndDateObj={setEndDateObj}
+                    setStartDateObj={setStartDateObj}
                     eventName={eventName}
                     startTime={startTime}
                     endTime={endTime}
@@ -131,7 +126,6 @@ const InputHeader: React.FC<InputHeaderProps> = (props) => {
                     setStartTime={setStartTime}
                     setEndTime={setEndTime}
                     setEventToEdit={setEventToEdit}
-                    eventDate={eventDate}
                     allDay={allDay}
                     setAllDay={setAllDay}
                     startDateObj={startDateObj}

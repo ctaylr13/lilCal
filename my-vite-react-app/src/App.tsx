@@ -30,13 +30,10 @@ const App = () => {
     const [endTime, setEndTime] = useState<string>("");
     const eventDate = selectedDate || today;
     const eventDateObj = dayjs(eventDate);
-    const [startDateStr, setStartDateStr] = useState<string>(
-        eventDateObj.format("MM/DD/YYYY")
-    );
+
     const [startDateObj, setStartDateObj] = useState<Dayjs | null>(
         eventDateObj
     );
-    const [endDateStr, setEndDateStr] = useState<string>("");
     const [endDateObj, setEndDateObj] = useState<Dayjs | null>(null);
 
     useEffect(() => {
@@ -48,11 +45,8 @@ const App = () => {
     }, []);
 
     useEffect(() => {
-        const newDate = selectedDate || today;
-        const newDateObj = dayjs(newDate);
-        setStartDateStr(newDateObj.format("MM/DD/YYYY"));
+        const newDateObj = dayjs(eventDate);
         setStartDateObj(newDateObj);
-        setEndDateStr(newDateObj.format("MM/DD/YYYY"));
         setEndDateObj(newDateObj);
     }, [selectedDate]);
 
@@ -81,24 +75,20 @@ const App = () => {
             </TopBar>
             <SideNav>
                 <InputHeader
+                    eventDate={eventDate}
                     allDay={allDay}
                     setAllDay={setAllDay}
                     setEvents={setEvents}
                     eventToEdit={eventToEdit}
                     setEventToEdit={setEventToEdit}
-                    eventDate={eventDate}
                     eventName={eventName}
                     setEventName={setEventName}
                     startTime={startTime}
                     setStartTime={setStartTime}
                     endTime={endTime}
                     setEndTime={setEndTime}
-                    startDateStr={startDateStr}
-                    setStartDateStr={setStartDateStr}
                     startDateObj={startDateObj}
                     setStartDateObj={setStartDateObj}
-                    endDateStr={endDateStr}
-                    setEndDateStr={setEndDateStr}
                     endDateObj={endDateObj}
                     setEndDateObj={setEndDateObj}
                 />

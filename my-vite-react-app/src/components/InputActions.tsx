@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
     createEvent,
     deleteEvent,
@@ -9,7 +9,9 @@ import type { Dayjs } from "dayjs";
 import { convertTo24Hour } from "../helpers/timeHelpers";
 import { ActionsButtonRow } from "../helpers/componentStyles";
 import { ToastContainer, toast } from "react-toastify";
+import dayjs from "dayjs";
 interface InputActionsProps {
+    eventDate: Dayjs;
     eventName: string;
     startTime: string;
     endTime: string;
@@ -20,15 +22,17 @@ interface InputActionsProps {
     setStartTime: React.Dispatch<React.SetStateAction<string>>;
     setEndTime: React.Dispatch<React.SetStateAction<string>>;
     setEventToEdit: React.Dispatch<React.SetStateAction<EventType | null>>;
-    eventDate: Dayjs;
     allDay?: boolean;
     setAllDay: React.Dispatch<React.SetStateAction<boolean>>;
     startDateObj: Dayjs | null;
     endDateObj: Dayjs | null;
+    setStartDateObj: React.Dispatch<React.SetStateAction<Dayjs | null>>;
+    setEndDateObj: React.Dispatch<React.SetStateAction<Dayjs | null>>;
 }
 
 const InputActions: React.FC<InputActionsProps> = (props) => {
     const {
+        eventDate,
         eventName,
         startTime,
         endTime,
@@ -39,7 +43,8 @@ const InputActions: React.FC<InputActionsProps> = (props) => {
         setEventName,
         setStartTime,
         setEndTime,
-        eventDate,
+        setEndDateObj,
+        setStartDateObj,
         allDay,
         setAllDay,
         startDateObj,
@@ -52,20 +57,37 @@ const InputActions: React.FC<InputActionsProps> = (props) => {
 
     const submitDisabled = !isValid;
 
+    const resetFields = () => {
+        const newDateObj = dayjs(eventDate);
+        setEventName("");
+        setStartTime("");
+        setEndTime("");
+        setAllDay(false);
+        setEventToEdit(null);
+        setEndDateObj(newDateObj);
+        setStartDateObj(newDateObj);
+    };
+
+    const dateInvalid = () => {
+        if (!startDateObj || !endDateObj) return true;
+        const startDate = startDateObj.format("YYYY-MM-DD");
+        const endDate = endDateObj.format("YYYY-MM-DD");
+        return startDate > endDate;
+    };
     const submitEvent = async () => {
         const startTime24 = convertTo24Hour(startTime);
         const endTime24 = convertTo24Hour(endTime);
-
-        if (!startTime24 || !endTime24) {
-            notify("Invalid time input. Please check the start and end times.");
+        if (dateInvalid()) {
+            notify("End date cannot be before start date.");
+            resetFields();
             return;
         }
 
         const event = createEvent(
             eventToEdit,
             eventName,
-            startTime24,
-            endTime24,
+            startTime24 || "",
+            endTime24 || "",
             allDay,
             startDateObj,
             endDateObj
@@ -73,11 +95,7 @@ const InputActions: React.FC<InputActionsProps> = (props) => {
 
         await submitOrUpdateEvent(event, setEvents, eventToEdit ? true : false);
 
-        setEventName("");
-        setStartTime("");
-        setEndTime("");
-        setAllDay(false);
-        setEventToEdit(null);
+        resetFields();
     };
 
     const notify = (message: string) => toast(message);
@@ -85,6 +103,7 @@ const InputActions: React.FC<InputActionsProps> = (props) => {
     const deleteEventOnClick = () => {
         if (!eventToEdit) return;
         deleteEvent(eventToEdit?.id, setEvents);
+        resetFields();
     };
 
     return (
