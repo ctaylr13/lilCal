@@ -97,15 +97,6 @@
       "endDay": "2025-05-06"
     },
     {
-      "id": "abf5e282-c1c0-42d1-9a88-cc4a62929c4d",
-      "title": "ggggg",
-      "allDay": false,
-      "startTime": "2025-05-07T07:00:00.000Z",
-      "endTime": "2025-05-07T10:00:00.000Z",
-      "startDay": "2025-05-07",
-      "endDay": "2025-05-07"
-    },
-    {
       "id": "7d4c9d32-6b77-4bc2-b0be-109b2fd67331",
       "title": "boat ride",
       "allDay": false,

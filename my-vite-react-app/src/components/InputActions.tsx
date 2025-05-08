@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { createEvent, submitOrUpdateEvent } from "../helpers/eventHelpers";
+import {
+    createEvent,
+    deleteEvent,
+    submitOrUpdateEvent,
+} from "../helpers/eventHelpers";
 import { EventType } from "../helpers/dataTypes";
 import type { Dayjs } from "dayjs";
 import { convertTo24Hour } from "../helpers/timeHelpers";
@@ -42,19 +46,11 @@ const InputActions: React.FC<InputActionsProps> = (props) => {
         endDateObj,
     } = props;
 
-    const [notifyMessage, setNotifyMessage] = useState("");
     const isValid =
         (allDay && eventName) ||
         (!allDay && eventName && startTime && endTime && !eventTimeInValid);
 
     const submitDisabled = !isValid;
-
-    const deleteEvent = () => {
-        setEvents((prevEvents) =>
-            prevEvents.filter((event) => event.id !== eventToEdit?.id)
-        );
-        setEventToEdit(null);
-    };
 
     const submitEvent = async () => {
         const startTime24 = convertTo24Hour(startTime);
@@ -87,7 +83,8 @@ const InputActions: React.FC<InputActionsProps> = (props) => {
     const notify = (message: string) => toast(message);
 
     const deleteEventOnClick = () => {
-        deleteEvent();
+        if (!eventToEdit) return;
+        deleteEvent(eventToEdit?.id, setEvents);
     };
 
     return (

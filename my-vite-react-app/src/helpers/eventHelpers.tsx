@@ -94,3 +94,23 @@ export const submitOrUpdateEvent = async (
         console.error("Error submitting/updating event:", error);
     }
 };
+
+export const deleteEvent = async (
+    eventId: string,
+    setEvents: React.Dispatch<React.SetStateAction<EventType[]>>
+) => {
+    const url = `http://localhost:3000/events/${eventId}`;
+
+    try {
+        const response = await fetch(url, {
+            method: "DELETE",
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to delete event: ${response.statusText}`);
+        }
+        setEvents((prevEvents) => prevEvents.filter((ev) => ev.id !== eventId));
+    } catch (error) {
+        console.error("Error deleting event:", error);
+    }
+};
