@@ -21,6 +21,13 @@ export const formatTime = (dateString: string): string => {
     return date.format("h:mm A");
 };
 
+export const formatEventTime = (startTime: string, endTime: string): string => {
+    const start = dayjs(startTime);
+    const end = dayjs(endTime);
+    if (!start.isValid() || !end.isValid()) return "";
+    return `${start.format("h:mm A")} - ${end.format("h:mm A")}`;
+};
+
 export const filterEventsByTypeAndDate = (
     events: EventType[],
     eventDate: Dayjs,
