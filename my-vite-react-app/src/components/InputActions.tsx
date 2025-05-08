@@ -51,12 +51,6 @@ const InputActions: React.FC<InputActionsProps> = (props) => {
         endDateObj,
     } = props;
 
-    const isValid =
-        (allDay && eventName) ||
-        (!allDay && eventName && startTime && endTime && !eventTimeInValid);
-
-    const submitDisabled = !isValid;
-
     const resetFields = () => {
         const newDateObj = dayjs(eventDate);
         setEventName("");
@@ -77,6 +71,27 @@ const InputActions: React.FC<InputActionsProps> = (props) => {
     const submitEvent = async () => {
         const startTime24 = convertTo24Hour(startTime);
         const endTime24 = convertTo24Hour(endTime);
+        if (startDateObj === null || endDateObj === null) {
+            notify("Please select a date.");
+            resetFields();
+            return;
+        }
+
+        if (
+            startDateObj === endDateObj &&
+            endTime24 &&
+            startTime24 &&
+            endTime24 < startTime24
+        ) {
+            notify("End time cannot be before start time.");
+            resetFields();
+            return;
+        }
+        if (!allDay && (startTime24 === null || endTime24 === null)) {
+            notify("Please select a valid time.");
+            resetFields();
+            return;
+        }
         if (dateInvalid()) {
             notify("End date cannot be before start date.");
             resetFields();
@@ -108,7 +123,7 @@ const InputActions: React.FC<InputActionsProps> = (props) => {
 
     return (
         <ActionsButtonRow>
-            <button disabled={submitDisabled} onClick={() => submitEvent()}>
+            <button disabled={!eventName} onClick={() => submitEvent()}>
                 Submit
             </button>
             {eventToEdit && (
