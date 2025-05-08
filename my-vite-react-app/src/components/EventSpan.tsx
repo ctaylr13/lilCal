@@ -1,7 +1,7 @@
 import React from "react";
 import dayjs, { Dayjs } from "dayjs";
 import { EventType } from "../helpers/dataTypes";
-
+import { formatEventTime } from "../helpers/timeHelpers";
 interface EventLayoutProps {
     event: EventType;
     columnIndex: number;
@@ -11,13 +11,6 @@ interface EventLayoutProps {
     dayStart: Dayjs;
     dayEnd: Dayjs;
 }
-
-const formatEventTime = (startTime: string, endTime: string): string => {
-    const start = dayjs(startTime);
-    const end = dayjs(endTime);
-    if (!start.isValid() || !end.isValid()) return "";
-    return `${start.format("h:mm A")} - ${end.format("h:mm A")}`;
-};
 
 const EventSpan: React.FC<EventLayoutProps> = ({
     event,
