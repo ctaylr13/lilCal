@@ -72,7 +72,7 @@ const InputActions: React.FC<InputActionsProps> = (props) => {
         if (!startDateObj || !endDateObj) return true;
         const startDate = startDateObj.format("YYYY-MM-DD");
         const endDate = endDateObj.format("YYYY-MM-DD");
-        return startDate > endDate || startDate < endDate;
+        return startDate > endDate;
     };
     const submitEvent = async () => {
         const startTime24 = convertTo24Hour(startTime);
