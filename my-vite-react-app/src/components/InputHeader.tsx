@@ -22,12 +22,13 @@ interface InputHeaderProps {
     setEndTime: React.Dispatch<React.SetStateAction<string>>;
     startDateObj: Dayjs | null;
     setStartDateObj: React.Dispatch<React.SetStateAction<Dayjs | null>>;
-    endDateStr: string;
     endDateObj: Dayjs | null;
     setEndDateObj: React.Dispatch<React.SetStateAction<Dayjs | null>>;
+    eventDate: Dayjs;
 }
 const InputHeader: React.FC<InputHeaderProps> = (props) => {
     const {
+        eventDate,
         setEvents,
         eventToEdit,
         setEventToEdit,
@@ -112,6 +113,9 @@ const InputHeader: React.FC<InputHeaderProps> = (props) => {
                     <label>All Day</label>
                 </>
                 <InputActions
+                    eventDate={eventDate}
+                    setEndDateObj={setEndDateObj}
+                    setStartDateObj={setStartDateObj}
                     eventName={eventName}
                     startTime={startTime}
                     endTime={endTime}
