@@ -86,19 +86,15 @@ const App = () => {
                     setEvents={setEvents}
                     eventToEdit={eventToEdit}
                     setEventToEdit={setEventToEdit}
-                    eventDate={eventDate}
                     eventName={eventName}
                     setEventName={setEventName}
                     startTime={startTime}
                     setStartTime={setStartTime}
                     endTime={endTime}
                     setEndTime={setEndTime}
-                    startDateStr={startDateStr}
-                    setStartDateStr={setStartDateStr}
                     startDateObj={startDateObj}
                     setStartDateObj={setStartDateObj}
                     endDateStr={endDateStr}
-                    setEndDateStr={setEndDateStr}
                     endDateObj={endDateObj}
                     setEndDateObj={setEndDateObj}
                 />
