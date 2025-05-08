@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Skeleton } from "antd";
 import InputHeader from "./components/InputHeader.tsx";
 import { EventType } from "./helpers/dataTypes.tsx";
 import Timeline from "./components/Timeline.tsx";
@@ -19,7 +20,7 @@ import { filterEventsByTypeAndDate } from "./helpers/timeHelpers.tsx";
 
 const App = () => {
     const today = dayjs();
-
+    const [dataLoading, setDataLoading] = useState(true);
     const [events, setEvents] = useState<EventType[]>([]);
     const [eventToEdit, setEventToEdit] = useState<EventType | null>(null);
     const [selectedDate, setSelectedDate] = useState<Dayjs>(today);
@@ -39,7 +40,10 @@ const App = () => {
     const [endDateObj, setEndDateObj] = useState<Dayjs | null>(null);
 
     useEffect(() => {
-        fetchEvents(setEvents);
+        setTimeout(() => {
+            fetchEvents(setEvents);
+            setDataLoading(false);
+        }, 1500);
     }, []);
 
     useEffect(() => {
@@ -103,15 +107,19 @@ const App = () => {
                 />
             </SideNav>
             <ContentWrapper>
-                <Timeline
-                    allDayEvents={allDayEvents}
-                    setAllDay={setAllDay}
-                    eventDate={eventDate}
-                    setEventToEdit={setEventToEdit}
-                    events={nonAllDayEvents}
-                    selectedDate={selectedDate}
-                    setSelectedDate={setSelectedDate}
-                />
+                {dataLoading ? (
+                    <Skeleton />
+                ) : (
+                    <Timeline
+                        allDayEvents={allDayEvents}
+                        setAllDay={setAllDay}
+                        eventDate={eventDate}
+                        setEventToEdit={setEventToEdit}
+                        events={nonAllDayEvents}
+                        selectedDate={selectedDate}
+                        setSelectedDate={setSelectedDate}
+                    />
+                )}
             </ContentWrapper>
         </Box>
     );
